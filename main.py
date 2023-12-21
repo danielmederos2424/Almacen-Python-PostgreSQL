@@ -1,6 +1,5 @@
 import psycopg2
 from psycopg2 import OperationalError
-import tkinter as tk
 import customtkinter
 from customtkinter import *
 from CTkTable import CTkTable
