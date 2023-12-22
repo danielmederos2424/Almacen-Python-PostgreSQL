@@ -37,7 +37,11 @@ class MainWindow(customtkinter.CTk):
             welcome_window.title("BIENVENIDO")
             welcome_window.geometry("400x280")
             welcome_window.resizable(0, 0)  # type: ignore
-
+            screen_width = welcome_window.winfo_screenwidth()
+            screen_height = welcome_window.winfo_screenheight()
+            x = (screen_width - 400) // 2
+            y = (screen_height - 280) // 2
+            welcome_window.geometry(f"+{x}+{y}")
             welcome_window.attributes("-topmost", True)
 
             # Cargar imagen
@@ -116,6 +120,12 @@ class MainWindow(customtkinter.CTk):
                             success_window.geometry("400x200")
                             success_window.title("CONEXIÓN EXITOSA")
                             success_window.resizable(0, 0)  # type: ignore
+                            screen_width = success_window.winfo_screenwidth()
+                            screen_height = success_window.winfo_screenheight()
+                            x = (screen_width - 400) // 2
+                            y = (screen_height - 200) // 2
+                            success_window.geometry(f"+{x}+{y}")
+                            success_window.attributes("-topmost", True)
                             success_image = Image.open("imgs/connect_success.png")
                             success_image = success_image.resize((100, 100))
                             photo = ImageTk.PhotoImage(success_image)
@@ -139,6 +149,12 @@ class MainWindow(customtkinter.CTk):
                             error_window.geometry("400x250")
                             error_window.title("ERROR")
                             error_window.resizable(0, 0)  # type: ignore
+                            screen_width = error_window.winfo_screenwidth()
+                            screen_height = error_window.winfo_screenheight()
+                            x = (screen_width - 400) // 2
+                            y = (screen_height - 250) // 2
+                            error_window.geometry(f"+{x}+{y}")
+                            error_window.attributes("-topmost", True)
 
                             error_image = Image.open("imgs/connect_error.png")
                             error_image = error_image.resize((100, 100))
@@ -191,6 +207,11 @@ def cargar_db(success_window, connection):
     db_window.title("ALMACÉN")
     db_window.geometry("1200x600")
     db_window.resizable(0, 0)  # type: ignore
+    screen_width = db_window.winfo_screenwidth()
+    screen_height = db_window.winfo_screenheight()
+    x = (screen_width - 1280) // 2
+    y = (screen_height - 600) // 2
+    db_window.geometry(f"+{x}+{y}")
 
     # Barra lateral con las diferentes opciones
     sidebar_frame = CTkFrame(master=db_window, width=230, height=600, corner_radius=0)
@@ -235,6 +256,12 @@ def cargar_db(success_window, connection):
         registrar_compra = customtkinter.CTkToplevel()
         registrar_compra.geometry("600x400")
         registrar_compra.resizable(0, 0)  # type: ignore
+        screen_width = registrar_compra.winfo_screenwidth()
+        screen_height = registrar_compra.winfo_screenheight()
+        x = (screen_width - 600) // 2
+        y = (screen_height - 400) // 2
+        registrar_compra.geometry(f"+{x}+{y}")
+        registrar_compra.attributes("-topmost", True)
         registrar_compra.title("REGISTRAR COMPRA")
         CTkLabel(master=registrar_compra, text="INGRESE LOS DETALLES DE LA COMPRA",
                  font=customtkinter.CTkFont(size=18, weight="bold"), justify="center").pack(expand=True, pady=(15, 5),
@@ -282,6 +309,12 @@ def cargar_db(success_window, connection):
                 success_window.geometry("400x350")
                 success_window.title("COMPRA REGISTRADA CON ÉXITO")
                 success_window.resizable(0, 0)  # type: ignore
+                screen_width = success_window.winfo_screenwidth()
+                screen_height = success_window.winfo_screenheight()
+                x = (screen_width - 400) // 2
+                y = (screen_height - 350) // 2
+                success_window.geometry(f"+{x}+{y}")
+                success_window.attributes("-topmost", True)
                 success_image = Image.open("imgs/connect_success.png")
                 success_image = success_image.resize((100, 100))
                 photo = ImageTk.PhotoImage(success_image)
@@ -314,6 +347,12 @@ def cargar_db(success_window, connection):
                 error_window.geometry("400x250")
                 error_window.title("ERROR")
                 error_window.resizable(0, 0)  # type: ignore
+                screen_width = error_window.winfo_screenwidth()
+                screen_height = error_window.winfo_screenheight()
+                x = (screen_width - 400) // 2
+                y = (screen_height - 250) // 2
+                error_window.geometry(f"+{x}+{y}")
+                error_window.attributes("-topmost", True)
 
                 error_image = Image.open("imgs/connect_error.png")
                 error_image = error_image.resize((100, 100))
@@ -339,6 +378,12 @@ def cargar_db(success_window, connection):
         historial_compras.geometry("1000x600")
         historial_compras.resizable(0, 0)  # type: ignore
         historial_compras.title("HISTORIAL DE COMPRAS")
+        screen_width = historial_compras.winfo_screenwidth()
+        screen_height = historial_compras.winfo_screenheight()
+        x = (screen_width - 1000) // 2
+        y = (screen_height - 600) // 2
+        historial_compras.geometry(f"+{x}+{y}")
+        historial_compras.attributes("-topmost", True)
 
         # Sección historial de compras
         cursor.execute(f"SELECT * FROM COMPRAS ORDER BY fecha_compra")
