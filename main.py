@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2 import OperationalError
 import customtkinter
-from customtkinter import *
+from customtkinter import CTk, CTkLabel, CTkEntry, CTkButton, CTkFrame, CTkScrollableFrame
 from CTkTable import CTkTable
 import os
 import glob
