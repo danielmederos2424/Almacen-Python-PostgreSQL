@@ -245,7 +245,7 @@ def cargar_db(success_window, connection):
     filter_label.place(relx=0.5, rely=0.84, anchor=customtkinter.CENTER)
 
     filter_options = customtkinter.CTkOptionMenu(master=sidebar_frame, dynamic_resizing=False,
-                                                 values=["ID", "CATEGORÍA", "NOMBRE", "PRECIO", "FECHA VENCIMIENTO",
+                                                 values=["ID", "CATEGORÍA", "NOMBRE", "PRECIO (€)", "FECHA VENCIMIENTO",
                                                          "STOCK"])
     filter_options.pack(side="bottom", padx=20, pady=50)
     filter_options.configure(command=lambda: update_table(cursor))
@@ -287,6 +287,9 @@ def cargar_db(success_window, connection):
                                (nombre_producto_compra,))
                 resultado = cursor.fetchone()
                 precio_unidad, cantidad_stock = resultado
+                if cantidad_compra > cantidad_stock:
+                    raise Exception("La cantidad de compra es mayor que la cantidad en stock.")
+
                 precio_total_compra = cantidad_compra * precio_unidad
                 fecha_compra = date.today()
                 hora_compra = datetime.now().time()
@@ -319,8 +322,8 @@ def cargar_db(success_window, connection):
                 photo = ImageTk.PhotoImage(success_image)
                 success_label = customtkinter.CTkLabel(master=success_window, text="", image=photo)  # type: ignore
                 success_text = "INFORMACIÓN DE LA COMPRA: \n\n" + "Producto: " + nombre_producto_compra + "\n" + "Cantidad: " + str(
-                    cantidad_compra) + "\n" + "Precio por unidad: " + str(
-                    precio_unidad) + "\n" + "Precio total: " + str(
+                    cantidad_compra) + "\n" + "Precio por unidad (€): " + str(
+                    precio_unidad) + "\n" + "Precio total (€): " + str(
                     precio_total_compra) + "\n" + "Cliente: " + nombre_cliente + "\n" + "Fecha: " + str(
                     fecha_compra) + "\n" + "Hora: " + str(
                     hora_compra) + "\n\n" + "La compra ha sido registrada con éxito."
@@ -374,12 +377,12 @@ def cargar_db(success_window, connection):
         db_window.attributes("-topmost", False)
         # Ventana para mostrar el historial de compras
         historial_compras = customtkinter.CTkToplevel()
-        historial_compras.geometry("1000x600")
+        historial_compras.geometry("1050x600")
         historial_compras.resizable(False, False) 
         historial_compras.title("HISTORIAL DE COMPRAS")
         screen_width = historial_compras.winfo_screenwidth()
         screen_height = historial_compras.winfo_screenheight()
-        x = (screen_width - 1000) // 2
+        x = (screen_width - 1050) // 2
         y = (screen_height - 600) // 2
         historial_compras.geometry(f"+{x}+{y}")
         historial_compras.attributes("-topmost", True)
@@ -387,11 +390,11 @@ def cargar_db(success_window, connection):
         # Sección historial de compras
         cursor.execute(f"SELECT * FROM COMPRAS ORDER BY fecha_compra")
         compras = cursor.fetchall()
-        column_names = ["ID", "Producto", "Cantidad", "Precio por unidad", "Precio total", "Nombre cliente", "Fecha",
+        column_names = ["ID", "Producto", "Cantidad", "Precio por unidad (€)", "Precio total (€)", "Nombre cliente", "Fecha",
                         "Hora"]
         table_data = [list(compra) for compra in compras]
         table_data.insert(0, column_names)
-        productos_frame = customtkinter.CTkScrollableFrame(master=historial_compras, label_text="COMPRAS", width=900,
+        productos_frame = customtkinter.CTkScrollableFrame(master=historial_compras, label_text="COMPRAS", width=1000,
                                                            height=500)
         productos_frame.place(relx=0.5, rely=0.5, anchor=customtkinter.CENTER)
         table = CTkTable(master=productos_frame, values=table_data)
@@ -443,7 +446,7 @@ def cargar_db(success_window, connection):
             "ID": "id",
             "CATEGORÍA": "categoria",
             "NOMBRE": "nombre_producto",
-            "PRECIO": "precio_unidad",
+            "PRECIO (€)": "precio_unidad",
             "FECHA VENCIMIENTO": "fecha_vencimiento",
             "STOCK": "cantidad_stock"
         }
@@ -454,7 +457,7 @@ def cargar_db(success_window, connection):
         productos = cursor.fetchall()
 
         # Sección mostrar productos
-        column_names = ["ID", "Categoría", "Nombre del producto", "Cantidad en stock", "Precio por unidad",
+        column_names = ["ID", "Categoría", "Nombre del producto", "Cantidad en stock", "Precio por unidad (€)",
                         "Fecha de vencimiento"]
         table_data = [list(producto) for producto in productos]
         table_data.insert(0, column_names)
@@ -673,7 +676,7 @@ def cargar_db(success_window, connection):
         cantidad_stock.pack(expand=True, pady=5, padx=20)
         categoria = CTkEntry(master=new_product, placeholder_text="Categoría", width=300)
         categoria.pack(expand=True, pady=5, padx=20)
-        precio_unidad = CTkEntry(master=new_product, placeholder_text="Precio por unidad", width=300)
+        precio_unidad = CTkEntry(master=new_product, placeholder_text="Precio por unidad (€)", width=300)
         precio_unidad.pack(expand=True, pady=5, padx=20)
         fecha_vencimiento = CTkEntry(master=new_product, placeholder_text="Fecha de vencimiento (YYYY-MM-DD)",
                                      width=300)
